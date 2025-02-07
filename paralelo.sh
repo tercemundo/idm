@@ -8,7 +8,7 @@ fi
 
 start_id=$1
 end_id=$2
-num_processes=10
+num_processes=4
 threads_per_process=50
 
 # Calcular el rango total y el tamaño de cada segmento
@@ -46,7 +46,7 @@ start_process() {
 # Limpiar archivo de PIDs si existe
 echo -n > logs/pids.txt
 
-# Iniciar los procesos
+# Iniciar los 4 procesos
 for ((i=1; i<=num_processes; i++)); do
     process_start=$((start_id + (i-1)*segment_size))
     
@@ -60,7 +60,7 @@ for ((i=1; i<=num_processes; i++)); do
     start_process $i $process_start $process_end
 done
 
-echo "Todos los procesos han sido iniciados"
+echo "Los 4 procesos han sido iniciados"
 echo "Los PIDs están guardados en logs/pids.txt"
 echo "Los logs están en el directorio logs/"
 
@@ -81,8 +81,6 @@ fi
 EOF
 
 chmod +x stop_all.sh
-
-echo "Se ha creado stop_all.sh para detener todos los procesos cuando sea necesario"
 
 # Crear script para verificar el estado
 cat > check_status.sh << 'EOF'
@@ -108,5 +106,5 @@ EOF
 
 chmod +x check_status.sh
 
+echo "Se ha creado stop_all.sh para detener todos los procesos"
 echo "Se ha creado check_status.sh para verificar el estado de los procesos"
-Last
